@@ -168,10 +168,6 @@ Window
                         echoMode: TextInput.Password
                         maximumLength: 26
 
-                        validator: Validator {
-
-                        }
-
                     }
 
                 }
@@ -189,9 +185,7 @@ Window
                     text: "Login"
                     onClicked:
                     {
-                        /* Validates the user inputs */
-                        // E-mail input validation
-                        r
+
                     }
 
                 }
