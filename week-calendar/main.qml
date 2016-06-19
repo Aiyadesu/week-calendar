@@ -29,6 +29,7 @@ Window
 
         initialItem: component_login_screen
 
+
         /*
          * The Login Screen for the Week Calendar Application
          * This screen should be the initialItem of the StackView
@@ -79,7 +80,7 @@ Window
                     id: txt_error
                     anchors.top: txt_title.bottom
                     anchors.topMargin: 5
-                    text: ""
+                    text: " "
 
                 }
 
@@ -169,11 +170,23 @@ Window
                         maximumLength: 26
 
                     }
-
                 }
 
 
-                // Login Button
+                /* Login Button
+                 *
+                 * Contains the following components:
+                 * 1) A Timer to stop the BusyIndicator
+                 * 2) A Button to represent the "Login" Button
+                 * 3) A BusyIndicator to display an action is occuring
+                 *
+                 * When the "Login" button is clicked, only then are the
+                 * other user inputs validated.
+                 *
+                 * If a successful login is detected, then "Login" disappears
+                 * on the button and a "spinner" or BusyIndicator is displayed.
+                 * After one (1) second, the next Screen is displayed.
+                 */
                 Button
                 {
 
@@ -183,16 +196,106 @@ Window
                     anchors.topMargin: 10
 
                     text: "Login"
+                    checkable: true
+                    checked: busyIndication.running
+
                     onClicked:
                     {
 
+                        // Resets the error label
+                        txt_error.text = " "
+
+                        // JavaScript validation for e-mail using RegExp
+                        var valid_email_pattern
+                                = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
+                        var result = valid_email_pattern.test(input_email.text);
+
+                        if(result === false)
+                        {
+
+                            txt_error.text
+                                    = "E-mail must be in the format of \n"
+                                    + "<sometext>@<sometext>.<somedomain> \n"
+                                    + "e.g. richardfagg0t@hotmail.com"
+
+                        } else if(input_password.text.length < 6)
+                        {
+                            txt_error.text
+                                    = "Password must have six (6) or more "
+                                    + "characters."
+                        } else // Login is successful!
+                        {
+
+                            btn_login.text = " " // Hides text
+                            timer_login.start() // Displays "spinner"
+
+                            /* When the "spinner" has elapsed for one (1) second
+                             * Display the next screen */
+                            if(timer_login.running === false
+                                    && busyIndicator_login.running === false)
+                            {
+
+                                //stack_application.push(//dashboard)
+
+                            }
+
+                        }
                     }
+                }
+
+
+                /* Since QML draws in declaration order putting it last */
+                BusyIndicator
+                {
+
+                    id: busyIndicator_login
+
+                    anchors.top: rect_password.bottom
+                    anchors.topMargin: 10
+                    anchors.horizontalCenter: btn_login.horizontalCenter
+                    anchors.verticalCenter: btn_login.verticalCenter
+
+                    height: 14
+                    width: 14
+
+                    running: false
 
                 }
 
 
+                /* A Timer that when activated displays a BusyIndicator (BI)
+                 * then deactivates after one (1) second along with the BI */
+                Timer
+                {
 
+                    id: timer_login
+
+                    interval: 1000;
+                    running: false
+                    repeat: false
+                    triggeredOnStart: true
+
+                    onTriggered: busyIndicator_login.running
+                                 ? busyIndicator_login.running = false
+                                 : busyIndicator_login.running = true
+
+                }
             }
+        }
+
+
+
+        /*
+         *
+         *
+         *
+         *
+         *
+         *
+         */
+        Component
+        {
+
         }
     }
 }
