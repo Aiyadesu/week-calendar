@@ -7,8 +7,6 @@ Item
 
     id: display_day;
 
-    property string text;
-
     MouseArea
     {
 
@@ -17,8 +15,7 @@ Item
         width: window_main.width;
 
         Component.onCompleted:
-            txt_selected_day.text = window_main.desu;
-            //console.log(window_main.desu);
+            txt_selected_day.text = window_main.day_selected;
 
         Text
         {

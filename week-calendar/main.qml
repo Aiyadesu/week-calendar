@@ -26,7 +26,7 @@ Window
 
     visible: true;
 
-    property string desu;
+    property string day_selected;
 
     // Height property of the Window fixed at 800px
     height: 800;

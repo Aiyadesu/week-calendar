@@ -93,21 +93,20 @@ Item
 
                     color: "transparent";
 
-
                     signal send(string day)
                     onSend: console.log("Send signal to: " + component_day + ", " + day);
 
                     Component.onCompleted:
                     {
+
                         wrapper_days.send(txt_day.text);
-                        //wrapper_days.send.connect(passInfo);
 
                     }
 
                     function passInfo()
                     {
-                        //console.log("Sending info to: " + component_day + ", " + day)
-                        window_main.desu = txt_day.text;
+
+                        window_main.day_selected = txt_day.text;
                         stack_application.push(component_day);
 
                     }
