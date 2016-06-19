@@ -293,10 +293,7 @@ Window
          *
          *
          */
-        Component
-        {
 
-        }
     }
 }
 
