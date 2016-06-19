@@ -91,37 +91,21 @@ Item
 
                     color: "transparent";
 
-                    //signal send(string day)
-                    //onSend: console.log("Send signal to: " + component_day + ", " + day);
+
+                    signal send(string day)
+                    onSend: console.log("Send signal to: " + component_day + ", " + day);
 
                     Component.onCompleted:
                     {
-                       // day = txt_day.text;
+                        wrapper_days.send(txt_day.text);
                         //wrapper_days.send.connect(passInfo);
 
                     }
-
-
 
                     function passInfo()
                     {
                         //console.log("Sending info to: " + component_day + ", " + day)
                         stack_application.push(component_day);
-
-                    }
-
-
-
-                    MouseArea
-                    {
-
-                        anchors.fill: wrapper_days;
-                        drag.target: wrapper_days;
-                        enabled: true;
-
-                        onClicked:
-                            passInfo();
-                            //stack_application.push(component_day);
 
                     }
 
@@ -135,6 +119,21 @@ Item
                         anchors.horizontalCenter: wrapper_days.horizontalCenter;
 
                         text: name;
+
+
+
+                        MouseArea
+                        {
+
+                            anchors.fill: txt_day;
+                            drag.target: txt_day;
+                            enabled: true;
+
+                            onClicked:
+                                console.log(txt_day.text);
+
+
+                        }
 
                     }
                 }
