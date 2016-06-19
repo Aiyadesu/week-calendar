@@ -26,6 +26,8 @@ Window
 
     visible: true;
 
+    property string desu;
+
     // Height property of the Window fixed at 800px
     height: 800;
     maximumHeight: height;

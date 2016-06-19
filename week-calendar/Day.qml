@@ -14,6 +14,12 @@ Item
 
         id: mArea_day_of_the_week;
 
+        width: window_main.width;
+
+        Component.onCompleted:
+            txt_selected_day.text = window_main.desu;
+            //console.log(window_main.desu);
+
         Text
         {
 
@@ -22,8 +28,11 @@ Item
             height: 200;
             width: window_main.width;
 
+            anchors.topMargin: height / 2;
+            anchors.horizontalCenter: mArea_day_of_the_week.horizontalCenter;
+
             // Should be a slot or something but I can't figure it out
-            text: "";
+            text: "KAPPA";
 
 
         }

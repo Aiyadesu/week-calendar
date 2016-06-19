@@ -21,6 +21,8 @@ Item
 
     id: dashboard;
 
+    property string clickedDay;
+
     MouseArea
     {
 
@@ -105,6 +107,7 @@ Item
                     function passInfo()
                     {
                         //console.log("Sending info to: " + component_day + ", " + day)
+                        window_main.desu = txt_day.text;
                         stack_application.push(component_day);
 
                     }
@@ -130,7 +133,7 @@ Item
                             enabled: true;
 
                             onClicked:
-                                console.log(txt_day.text);
+                                passInfo();
 
 
                         }
