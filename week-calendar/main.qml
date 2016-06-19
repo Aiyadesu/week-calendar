@@ -2,6 +2,22 @@ import QtQuick 2.3
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 
+/*
+ * This application allows users to view the "Day of the Week".
+ *
+ * It consists of three parts: The "Login", "Dashboard" and "Day of the Week"
+ * screens.
+ *
+ * To Login a valid e-mail address and password are required to access the
+ * "Dashboard" screen.
+ *
+ * From the "Dashboard" screen, users may return to the "Login" screen
+ * at any time or access the "Day of the Week" screen by clicking on the
+ * desired "Day of the Week".
+ *
+ * From the "Day of the Week" screen, users will have the information they
+ * requested. They may return to the "Dashboard" screen at any time.
+ */
 Window
 {
 
@@ -42,6 +58,9 @@ Window
          *
          * There is a text label that displays an error message
          * if Login was invalidated, otherwise blank.
+         *
+         * Pre-condition: None.
+         * Post-condition: The "Dashboard" screen is displayed.
          */
         Component
         {
@@ -196,8 +215,8 @@ Window
                     anchors.topMargin: 10
 
                     text: "Login"
-                    checkable: true
-                    checked: busyIndication.running
+                    //checkable: true
+                    //checked: busyIndication.running
 
                     onClicked:
                     {
@@ -210,6 +229,7 @@ Window
                                 = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
                         var result = valid_email_pattern.test(input_email.text);
 
+                        // Validates the e-mail address
                         if(result === false)
                         {
 
@@ -218,30 +238,23 @@ Window
                                     + "<sometext>@<sometext>.<somedomain> \n"
                                     + "e.g. richardfagg0t@hotmail.com"
 
+                        // Validates the password
                         } else if(input_password.text.length < 6)
                         {
                             txt_error.text
                                     = "Password must have six (6) or more "
                                     + "characters."
-                        } else // Login is successful!
+
+                        // Login is successful!
+                        } else
                         {
 
                             btn_login.text = " " // Hides text
                             timer_login.start() // Displays "spinner"
 
-                            /* When the "spinner" has elapsed for one (1) second
-                             * Display the next screen */
-                            if(timer_login.running === false
-                                    && busyIndicator_login.running === false)
-                            {
-
-                                //stack_application.push(//dashboard)
-
-                            }
-
                         }
                     }
-                }
+
 
 
                 /* Since QML draws in declaration order putting it last */
@@ -262,6 +275,7 @@ Window
 
                 }
 
+            }
 
                 /* A Timer that when activated displays a BusyIndicator (BI)
                  * then deactivates after one (1) second along with the BI */
@@ -275,9 +289,27 @@ Window
                     repeat: false
                     triggeredOnStart: true
 
-                    onTriggered: busyIndicator_login.running
-                                 ? busyIndicator_login.running = false
-                                 : busyIndicator_login.running = true
+                    /* Displays a BusyIndicator if not displaying one
+                     * If the BusyIndicator is already running, disable it
+                     * and load the "Dashboard" */
+                    onTriggered: if(busyIndicator_login.running == true)
+                                 {
+
+                                     busyIndicator_login.running = false
+                                     stack_application.push(component_dashboard)
+                                     btn_login.text = "Login"
+                                     input_email.text = ""
+                                     input_password.text = ""
+
+                                 } else
+                                 {
+
+                                     busyIndicator_login.running = true
+
+                                 }
+
+
+
 
                 }
             }
@@ -286,13 +318,190 @@ Window
 
 
         /*
+         * The Dashboard Screen for the Week Calendar Application.
+         * It shows the days of the week.
          *
+         * When clicking on a day of the week, the user will be taken to a
+         * screen that displays the day of the week that was just clicked.
          *
+         * There is a "BACK" button in the bottom right of the page.
          *
-         *
-         *
-         *
+         * Pre-condition: User must have successfully logged in.
+         * Post-conditions:
+         * 1) The user will return to the "Login" screen.
+         * 2) The user will be on a "Day of the Week" screen.
          */
+        Component
+        {
+
+            id: component_dashboard
+
+
+            MouseArea
+            {
+
+                id: mArea_dashboard
+
+                //anchors.fill: stack_application
+
+                ListModel
+                {
+
+                    id: listModel_days
+
+                    ListElement
+                    {
+                        name: "Monday"
+                    }
+
+                    ListElement
+                    {
+                        name: "Tuesday"
+                    }
+
+                    ListElement
+                    {
+                        name: "Wednesday"
+                    }
+
+                    ListElement
+                    {
+                        name: "Thursday"
+                    }
+
+                    ListElement
+                    {
+                        name: "Friday"
+                    }
+
+                    ListElement
+                    {
+                        name: "Saturday"
+                    }
+
+                    ListElement
+                    {
+                        name: "Sunday"
+                    }
+
+                }
+
+                ListView
+                {
+
+                    id: listView_days
+
+                    height: window_main.height / 8 * 7
+                    width: window_main.width
+
+                    Component
+                    {
+
+                        id: delegate_days
+
+                        Rectangle
+                        {
+
+                            id: wrapper_days
+                            width: listView_days.width
+                            height: txt_day.height
+                            color: "transparent"
+
+                            MouseArea
+                            {
+
+                                anchors.fill: wrapper_days
+                                drag.target: wrapper_days
+                                enabled: true
+
+                                onClicked: wrapper_days.color = "green"
+
+
+                            }
+
+                            Text
+                            {
+
+                                id: txt_day
+
+                                height: listView_days.height / listModel_days.count
+
+                                anchors.horizontalCenter: wrapper_days.horizontalCenter
+
+                                text: name
+
+                            }
+                        }
+                    }
+
+                    model: listModel_days
+                    delegate: delegate_days
+                    focus: true
+
+
+                }
+
+                Button
+                {
+                    id: btn_back_to_login
+
+                    anchors.top: listView_days.bottom
+                    anchors.horizontalCenter: listView_days.horizontalCenter
+
+                    text: "BACK"
+
+                    height: window_main.height / 8
+                    width: window_main.width
+
+                    MouseArea
+                    {
+
+                        anchors.centerIn: btn_back_to_login
+
+                        height: btn_back_to_login.height
+                        width: btn_back_to_login.width
+
+                        onClicked: stack_application.pop()
+
+
+
+                    }
+                }
+
+
+            }
+        }
+
+
+
+        Component
+        {
+            id: component_day_of_the_week
+
+            MouseArea
+            {
+
+                id: mArea_day_of_the_week
+
+                Text
+                {
+                    id: txt_selected_day
+                    text: " "
+                }
+
+                Button
+                {
+                    id: btn_back_to_dashboard
+                }
+
+
+
+
+            }
+        }
+
+
+
 
     }
 }
