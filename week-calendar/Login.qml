@@ -20,26 +20,28 @@ import QtQuick.Controls 1.4
 Item
 {
 
+    signal login();
+
     MouseArea
     {
 
-        id: mArea_login_screen
+        id: mArea_login_screen;
 
-        anchors.fill: parent
+        anchors.fill: parent;
 
         // Screen Title
         Text
         {
 
-            id: txt_title
+            id: txt_title;
 
             anchors.horizontalCenter:
-                mArea_login_screen.horizontalCenter
-            anchors.top: mArea_login_screen.top
-            anchors.topMargin: 10
+                mArea_login_screen.horizontalCenter;
+            anchors.top: mArea_login_screen.top;
+            anchors.topMargin: 10;
 
-            font.pixelSize: 14
-            text: "Week Day Calendar Application Login Screen"
+            font.pixelSize: 14;
+            text: "Week Day Calendar Application Login Screen";
 
         }
 
@@ -48,12 +50,12 @@ Item
         Text
         {
 
-            id: txt_error
+            id: txt_error;
 
-            anchors.top: txt_title.bottom
-            anchors.topMargin: 5
+            anchors.top: txt_title.bottom;
+            anchors.topMargin: 5;
 
-            text: " "
+            text: " ";
 
         }
 
@@ -62,25 +64,25 @@ Item
         Rectangle
         {
 
-            id: rect_email
-            anchors.top: txt_error.bottom
-            anchors.topMargin: 5
+            id: rect_email;
+            anchors.top: txt_error.bottom;
+            anchors.topMargin: 5;
 
-            border.color: "black"
-            color: "transparent"
+            border.color: "black";
+            color: "transparent";
 
-            width: 240
-            height: 25
+            width: 240;
+            height: 25;
 
 
             Text
             {
 
-                id: txt_email
+                id: txt_email;
 
-                width: 55
+                width: 55;
 
-                text: "E-mail: "
+                text: "E-mail: ";
 
             }
 
@@ -88,13 +90,13 @@ Item
             TextField
             {
 
-                id: input_email
+                id: input_email;
 
-                anchors.left: txt_email.right
+                anchors.left: txt_email.right;
 
-                width: rect_email.width - txt_email.width
+                width: rect_email.width - txt_email.width;
 
-                maximumLength: 40
+                maximumLength: 40;
 
             }
         }
@@ -104,25 +106,25 @@ Item
         Rectangle
         {
 
-            id: rect_password
+            id: rect_password;
 
-            anchors.top: rect_email.bottom
+            anchors.top: rect_email.bottom;
 
-            border.color: "black"
-            color: "transparent"
+            border.color: "black";
+            color: "transparent";
 
-            width: 240
-            height: 25
+            width: 240;
+            height: 25;
 
 
             Text
             {
 
-                id: txt_password
+                id: txt_password;
 
-                width: 55
+                width: 55;
 
-                text: "Password: "
+                text: "Password: ";
 
             }
 
@@ -130,42 +132,42 @@ Item
             TextField
             {
 
-                id: input_password
+                id: input_password;
 
-                anchors.left: txt_password.right
+                anchors.left: txt_password.right;
 
-                width: rect_email.width - txt_password.width
+                width: rect_email.width - txt_password.width;
 
-                echoMode: TextInput.Password
-                maximumLength: 26
+                echoMode: TextInput.Password;
+                maximumLength: 26;
 
             }
         }
 
 
         /* Login Button
-             *
-             * Contains the following components:
-             * 1) A Timer to stop the BusyIndicator
-             * 2) A Button to represent the "Login" Button
-             * 3) A BusyIndicator to display an action is occuring
-             *
-             * When the "Login" button is clicked, only then are the
-             * other user inputs validated.
-             *
-             * If a successful login is detected, then "Login" disappears
-             * on the button and a "spinner" or BusyIndicator is displayed.
-             * After one (1) second, the next Screen is displayed.
-             */
+         *
+         * Contains the following components:
+         * 1) A Timer to stop the BusyIndicator
+         * 2) A Button to represent the "Login" Button
+         * 3) A BusyIndicator to display an action is occuring
+         *
+         * When the "Login" button is clicked, only then are the
+         * other user inputs validated.
+         *
+         * If a successful login is detected, then "Login" disappears
+         * on the button and a "spinner" or BusyIndicator is displayed.
+         * After one (1) second, the next Screen is displayed.
+         */
         Button
         {
 
-            id: btn_login
+            id: btn_login;
 
-            anchors.top: rect_password.bottom
-            anchors.topMargin: 10
+            anchors.top: rect_password.bottom;
+            anchors.topMargin: 10;
 
-            text: "Login"
+            text: "Login";
 
             onClicked:
             {
@@ -185,21 +187,21 @@ Item
                     txt_error.text
                             = "E-mail must be in the format of \n"
                             + "<sometext>@<sometext>.<somedomain> \n"
-                            + "e.g. richardfagg0t@hotmail.com"
+                            + "e.g. richardfagg0t@hotmail.com";
 
                     // Validates the password
                 } else if(input_password.text.length < 6)
                 {
                     txt_error.text
                             = "Password must have six (6) or more "
-                            + "characters."
+                            + "characters.";
 
                     // Login is successful!
                 } else
                 {
 
-                    btn_login.text = " " // Hides text
-                    timer_login.start() // Displays "spinner"
+                    btn_login.text = " "; // Hides text
+                    timer_login.start(); // Displays "spinner"
 
                 }
             }
@@ -209,50 +211,50 @@ Item
             BusyIndicator
             {
 
-                id: busyIndicator_login
+                id: busyIndicator_login;
 
-                anchors.top: rect_password.bottom
-                anchors.topMargin: 10
-                anchors.horizontalCenter: btn_login.horizontalCenter
-                anchors.verticalCenter: btn_login.verticalCenter
+                anchors.top: rect_password.bottom;
+                anchors.topMargin: 10;
+                anchors.horizontalCenter: btn_login.horizontalCenter;
+                anchors.verticalCenter: btn_login.verticalCenter;
 
-                height: 14
-                width: 14
+                height: 14;
+                width: 14;
 
-                running: false
+                running: false;
 
             }
 
         }
 
         /* A Timer that when activated displays a BusyIndicator (BI)
-             * then deactivates after one (1) second along with the BI */
+         * then deactivates after one (1) second along with the BI */
         Timer
         {
 
             id: timer_login
 
             interval: 1000;
-            running: false
-            repeat: false
-            triggeredOnStart: true
+            running: false;
+            repeat: false;
+            triggeredOnStart: true;
 
             /* Displays a BusyIndicator if not displaying one
-                 * If the BusyIndicator is already running, disable it
-                 * and load the "Dashboard" */
+             * If the BusyIndicator is already running, disable it
+             * and load the "Dashboard" */
             onTriggered: if(busyIndicator_login.running == true)
                          {
 
-                             busyIndicator_login.running = false
-                             stack_application.push(component_dashboard)
-                             btn_login.text = "Login"
-                             input_email.text = ""
-                             input_password.text = ""
+                             busyIndicator_login.running = false;
+                             login();
+                             btn_login.text = "Login";
+                             input_email.text = "";
+                             input_password.text = "";
 
                          } else
                          {
 
-                             busyIndicator_login.running = true
+                             busyIndicator_login.running = true;
 
                          }
         }

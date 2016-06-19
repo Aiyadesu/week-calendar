@@ -21,7 +21,33 @@ Item
 
     id: dashboard;
 
-    property string clickedDay;
+    height: 800;
+    width: 480;
+
+    signal displayDay(string day);
+    signal back();
+
+    readonly property var days_of_the_week_array:
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+        , "Saturday", "Sunday"];
+
+    // Populates the ListModel with ListElement data
+    Stack.onStatusChanged:
+    {
+
+        if(Stack.status === Stack.Activating)
+        {
+            for(var day_of_the_week = 0; day_of_the_week
+                < days_of_the_week_array.length; day_of_the_week++)
+            {
+
+                listModel_days.append(
+                            {name: days_of_the_week_array[day_of_the_week]});
+
+            }
+        }
+
+    }
 
     MouseArea
     {
@@ -33,41 +59,6 @@ Item
 
             id: listModel_days;
 
-            ListElement
-            {
-                name: "Monday";
-            }
-
-            ListElement
-            {
-                name: "Tuesday";
-            }
-
-            ListElement
-            {
-                name: "Wednesday";
-            }
-
-            ListElement
-            {
-                name: "Thursday";
-            }
-
-            ListElement
-            {
-                name: "Friday";
-            }
-
-            ListElement
-            {
-                name: "Saturday";
-            }
-
-            ListElement
-            {
-                name: "Sunday";
-            }
-
         }
 
         ListView
@@ -75,8 +66,7 @@ Item
 
             id: listView_days;
 
-            height: window_main.height / 8 * 7;
-            width: window_main.width;
+            height: dashboard.height - (dashboard.height / 8);
 
             Component
             {
@@ -88,52 +78,33 @@ Item
 
                     id: wrapper_days;
 
-                    height: txt_day.height;
-                    width: listView_days.width;
+                    height: dashboard.height / 8;
+                    width: dashboard.width;
 
                     color: "transparent";
-
-                    signal send(string day)
-                    onSend: console.log("Send signal to: " + component_day + ", " + day);
-
-                    Component.onCompleted:
-                    {
-
-                        wrapper_days.send(txt_day.text);
-
-                    }
-
-                    function passInfo()
-                    {
-
-                        window_main.day_selected = txt_day.text;
-                        stack_application.push(component_day);
-
-                    }
 
                     Text
                     {
 
                         id: txt_day;
 
-                        height: listView_days.height / listModel_days.count;
+                        height: dashboard.height / 8;
 
-                        anchors.horizontalCenter: wrapper_days.horizontalCenter;
+                        anchors.horizontalCenter:
+                            wrapper_days.horizontalCenter;
 
                         text: name;
 
 
-
                         MouseArea
                         {
-
-                            anchors.fill: txt_day;
+                            height: dashboard.height / 8;
+                            width: dashboard.width;
                             drag.target: txt_day;
                             enabled: true;
 
                             onClicked:
-                                passInfo();
-
+                                displayDay(txt_day.text);
 
                         }
 
@@ -145,18 +116,18 @@ Item
             delegate: delegate_days;
             focus: true;
 
-
         }
 
+        // Back Button
         Button
         {
+
             id: btn_back_to_login;
 
-            height: window_main.height / 8;
-            width: window_main.width;
+            width: dashboard.width;
 
             anchors.top: listView_days.bottom;
-            anchors.horizontalCenter: listView_days.horizontalCenter;
+            //anchors.horizontalCenter: listView_days.horizontalCenter;
 
             text: "BACK";
 
@@ -165,10 +136,7 @@ Item
 
                 anchors.centerIn: btn_back_to_login;
 
-                height: btn_back_to_login.height;
-                width: btn_back_to_login.width;
-
-                onClicked: stack_application.pop();
+                onClicked: back();
 
             }
         }

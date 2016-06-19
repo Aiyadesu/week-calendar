@@ -53,7 +53,18 @@ Window
 
             id: component_login;
 
-            Login {}
+            Login
+            {
+
+                onLogin:
+                {
+
+                    stack_application.push(component_dashboard);
+                    stack_application.currentItem.states;
+
+                }
+
+            }
         }
 
         Component
@@ -61,7 +72,19 @@ Window
 
             id: component_dashboard;
 
-            Dashboard {}
+            Dashboard
+            {
+
+                onBack: stack_application.pop();
+
+                onDisplayDay:
+                {
+
+                    stack_application.push(component_day);
+                    stack_application.currentItem.day = day;
+
+                }
+            }
         }
 
         Component
@@ -69,9 +92,11 @@ Window
 
             id: component_day;
 
-            Day {}
+            Day
+            {
+                onBack: stack_application.pop();
+            }
         }
-
     }
 }
 
